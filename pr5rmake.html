@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lương Minh Triệu Vĩ - Developer & Pharmacist</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Hiệu ứng tuyết rơi */
+        .snow-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .snow {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+
+        /* Container chính */
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 30px 0;
+            margin-bottom: 30px;
+        }
+
+        .name {
+            font-size: 3.2rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #ff0000, #ff9900, #ffff00, #33ff00, #0099ff, #6633ff, #ff00ff);
+            background-size: 400% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: rainbow 8s ease infinite;
+            letter-spacing: 1px;
+        }
+
+        @keyframes rainbow {
+            0%, 100% { background-position: 0 0; }
+            50% { background-position: 100% 0; }
+        }
+
+        .title {
+            font-size: 2rem;
+            margin-bottom: 25px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .static-text {
+            color: #f0f0f0;
+        }
+
+        .typing-text {
+            color: #4fc3f7;
+            font-weight: 600;
+            border-right: 3px solid #4fc3f7;
+            padding-right: 5px;
+            animation: blink 0.7s infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes blink {
+            0%, 100% { border-color: #4fc3f7; }
+            50% { border-color: transparent; }
+        }
+
+        .description {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+            font-size: 1.1rem;
+            color: #d1e8ff;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #4fc3f7;
+        }
+
+        /* Grid thông tin */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s, background 0.3s;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .info-card i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #4fc3f7;
+        }
+
+        .info-card .platform {
+            font-size: 0.9rem;
+            color: #aaa;
+            margin-bottom: 5px;
+        }
+
+        .info-card .value {
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        /* Phần kỹ năng */
+        .skills-section {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .skills-title {
+            font-size: 2rem;
+            margin-bottom: 25px;
+            text-align: center;
+            color: #4fc3f7;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .skills-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #4fc3f7, transparent);
+        }
+
+        .skill-item {
+            margin-bottom: 25px;
+        }
+
+        .skill-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .skill-name {
+            font-weight: 500;
+        }
+
+        .skill-percent {
+            color: #4fc3f7;
+            font-weight: 600;
+        }
+
+        .skill-bar {
+            height: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .skill-progress {
+            height: 100%;
+            border-radius: 6px;
+            background: linear-gradient(90deg, #4fc3f7, #2962ff);
+            width: 0;
+            transition: width 1.5s ease-in-out;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #aaa;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .name {
+                font-size: 2.5rem;
+            }
+            
+            .title {
+                font-size: 1.6rem;
+                flex-direction: column;
+                height: auto;
+            }
+            
+            .typing-text {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+            
+            .info-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+
+        @media (max-width: 480px) {
+            .name {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            .skills-section {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hiệu ứng tuyết rơi -->
+    <div class="snow-container" id="snow-container"></div>
+
+    <div class="container">
+        <header>
+            <h1 class="name">Lương Minh Triệu Vĩ</h1>
+            <div class="title">
+                <span class="static-text">I'm a</span>
+                <span class="typing-text" id="typing-text"></span>
+            </div>
+            <div class="description">
+                Tôi là Lương Minh Triệu Vĩ, một lập trình viên và nhà phát triển tự do, đam mê lập trình xuất phát từ sở thích thuần túy. Hiện tại tôi cũng là một dược sĩ và đang tìm cách kết hợp kiến thức y dược với công nghệ để tạo ra những ứng dụng hữu ích.
+            </div>
+        </header>
+
+        <main>
+            <div class="info-grid">
+                <div class="info-card">
+                    <i class="fab fa-youtube"></i>
+                    <div class="platform">YouTube</div>
+                    <div class="value">Lương Minh Triệu Vĩ</div>
+                </div>
+                <div class="info-card">
+                    <i class="fab fa-tiktok"></i>
+                    <div class="platform">TikTok</div>
+                    <div class="value">Dori</div>
+                </div>
+                <div class="info-card">
+                    <i class="fab fa-facebook"></i>
+                    <div class="platform">Facebook</div>
+                    <div class="value">Lương Minh Triệu Vĩ</div>
+                </div>
+                <div class="info-card">
+                    <i class="fab fa-spotify"></i>
+                    <div class="platform">Spotify</div>
+                    <div class="value">Trieu Vi</div>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-envelope"></i>
+                    <div class="platform">Email</div>
+                    <div class="value">trieuvidev</div>
+                </div>
+                <div class="info-card">
+                    <i class="fab fa-discord"></i>
+                    <div class="platform">Discord</div>
+                    <div class="value">Dori1810</div>
+                </div>
+            </div>
+
+            <div class="skills-section">
+                <h2 class="skills-title">Programming Language Skills</h2>
+                
+                <div class="skill-item">
+                    <div class="skill-header">
+                        <span class="skill-name">HTML/CSS</span>
+                        <span class="skill-percent">85%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="85"></div>
+                    </div>
+                </div>
+                
+                <div class="skill-item">
+                    <div class="skill-header">
+                        <span class="skill-name">C#/JS</span>
+                        <span class="skill-percent">70%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="70"></div>
+                    </div>
+                </div>
+                
+                <div class="skill-item">
+                    <div class="skill-header">
+                        <span class="skill-name">Lua</span>
+                        <span class="skill-percent">60%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="60"></div>
+                    </div>
+                </div>
+                
+                <div class="skill-item">
+                    <div class="skill-header">
+                        <span class="skill-name">PHP</span>
+                        <span class="skill-percent">30%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="30"></div>
+                    </div>
+                </div>
+                
+                <div class="skill-item">
+                    <div class="skill-header">
+                        <span class="skill-name">MySQL</span>
+                        <span class="skill-percent">20%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="20"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>© 2025 Lương Minh Triệu Vĩ. Open Source - Do your best if you can.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Hiệu ứng tuyết rơi
+        function createSnow() {
+            const snowContainer = document.getElementById('snow-container');
+            const snowCount = 80;
+            
+            for (let i = 0; i < snowCount; i++) {
+                const snow = document.createElement('div');
+                snow.classList.add('snow');
+                
+                // Kích thước ngẫu nhiên
+                const size = Math.random() * 6 + 2;
+                snow.style.width = `${size}px`;
+                snow.style.height = `${size}px`;
+                
+                // Vị trí ngẫu nhiên
+                snow.style.left = `${Math.random() * 100}vw`;
+                
+                // Thời gian rơi ngẫu nhiên
+                const duration = Math.random() * 5 + 5;
+                snow.style.animationDuration = `${duration}s`;
+                
+                // Độ trễ ngẫu nhiên
+                snow.style.animationDelay = `${Math.random() * 5}s`;
+                
+                snowContainer.appendChild(snow);
+            }
+        }
+        
+        // Hiệu ứng gõ chữ
+        const typingText = document.getElementById('typing-text');
+        const words = ['Developer Website', 'Pharmacist'];
+        let wordIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        let typingSpeed = 200;
+        
+        function typeEffect() {
+            const currentWord = words[wordIndex];
+            
+            if (isDeleting) {
+                // Xóa ký tự
+                typingText.textContent = currentWord.substring(0, charIndex - 1);
+                charIndex--;
+                typingSpeed = 50;
+            } else {
+                // Thêm ký tự
+                typingText.textContent = currentWord.substring(0, charIndex + 1);
+                charIndex++;
+                typingSpeed = 100;
+            }
+            
+            if (!isDeleting && charIndex === currentWord.length) {
+                // Dừng khi hoàn thành từ
+                isDeleting = true;
+                typingSpeed = 1500; // Dừng 1.5 giây
+            } else if (isDeleting && charIndex === 0) {
+                // Chuyển sang từ tiếp theo
+                isDeleting = false;
+                wordIndex = (wordIndex + 1) % words.length;
+                typingSpeed = 500; // Dừng 0.5 giây trước khi bắt đầu từ mới
+            }
+            
+            setTimeout(typeEffect, typingSpeed);
+        }
+        
+        // Hiệu ứng thanh kỹ năng
+        function animateSkillBars() {
+            const skillBars = document.querySelectorAll('.skill-progress');
+            
+            skillBars.forEach(bar => {
+                const width = bar.getAttribute('data-width');
+                bar.style.width = `${width}%`;
+            });
+        }
+        
+        // Khởi tạo khi trang tải xong
+        document.addEventListener('DOMContentLoaded', function() {
+            createSnow();
+            setTimeout(typeEffect, 1000);
+            
+            // Kích hoạt thanh kỹ năng khi cuộn đến phần đó
+            window.addEventListener('scroll', function() {
+                const skillsSection = document.querySelector('.skills-section');
+                const sectionPosition = skillsSection.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.3;
+                
+                if (sectionPosition < screenPosition) {
+                    animateSkillBars();
+                }
+            });
+            
+            // Kích hoạt thanh kỹ năng ngay nếu đã ở vị trí
+            const skillsSection = document.querySelector('.skills-section');
+            const sectionPosition = skillsSection.getBoundingClientRect().top;
+            const screenPosition = window.innerHeight / 1.3;
+            
+            if (sectionPosition < screenPosition) {
+                animateSkillBars();
+            }
+        });
+    </script>
+</body>
+</html>
